@@ -1,0 +1,19 @@
+{
+  "name": "personal-knowledge-vault",
+  "description": "Build and run an Obsidian personal database with your agent: wings by audience, Maps of Content, no-orphan links, graph colours, Bases dashboards for health and deadlines.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Shimeng (Simon) Yang",
+    "url": "https://github.com/YSMsimon"
+  },
+  "license": "MIT",
+  "keywords": [
+    "obsidian",
+    "pkm",
+    "second-brain",
+    "notes",
+    "knowledge-base"
+  ],
+  "homepage": "https://github.com/YSMsimon/personal-knowledge-vault",
+  "repository": "https://github.com/YSMsimon/personal-knowledge-vault"
+}

@@ -1,0 +1,14 @@
+{
+  "name": "personal-knowledge-vault",
+  "owner": {
+    "name": "Shimeng (Simon) Yang",
+    "url": "https://github.com/YSMsimon"
+  },
+  "plugins": [
+    {
+      "name": "personal-knowledge-vault",
+      "source": "./",
+      "description": "Build and run an Obsidian personal database with your agent."
+    }
+  ]
+}
