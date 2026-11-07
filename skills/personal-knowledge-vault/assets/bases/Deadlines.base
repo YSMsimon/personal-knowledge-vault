@@ -3,8 +3,8 @@ filters:
     - file.ext == "md"
     - due
 formulas:
-  days_left: (date(due) - today()).days
-  urgency: if((date(due) - today()).days < 0, "overdue", if((date(due) - today()).days <= 14, "this fortnight", if((date(due) - today()).days <= 45, "next 6 weeks", "later")))
+  days_left: (date(due) - today()).days.round(0)
+  urgency: if((date(due) - today()).days.round(0) < 0, "overdue", if((date(due) - today()).days.round(0) <= 14, "this fortnight", if((date(due) - today()).days.round(0) <= 45, "next 6 weeks", "later")))
   wing: '{{WING_FORMULA}}'
 properties:
   formula.days_left:
@@ -20,6 +20,9 @@ properties:
 views:
   - type: table
     name: What's next
+    sort:
+      - property: formula.days_left
+        direction: ASC
     filters:
       and:
         - (date(due) - today()).days >= 0
@@ -33,6 +36,9 @@ views:
       formula.days_left: Min
   - type: table
     name: Overdue
+    sort:
+      - property: formula.days_left
+        direction: ASC
     filters:
       and:
         - (date(due) - today()).days < 0
@@ -43,6 +49,9 @@ views:
       - formula.days_left
   - type: table
     name: Next 6 weeks
+    sort:
+      - property: formula.days_left
+        direction: ASC
     filters:
       and:
         - (date(due) - today()).days >= 0
@@ -58,6 +67,9 @@ views:
       - status
   - type: table
     name: By wing
+    sort:
+      - property: formula.days_left
+        direction: ASC
     groupBy:
       property: formula.wing
       direction: ASC

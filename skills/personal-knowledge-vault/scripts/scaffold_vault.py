@@ -37,7 +37,7 @@ COLOUR_GROUPS = [
     ("[type:note]", 0x5B8DEF),     # blue
     ("[type:source]", 0xB48EAD),   # purple
     ("[type:daily]", 0x8A8A8A),    # grey
-    ("tag:#private", 0xE06C75),    # red: anything in a private or strict wing
+    ("tag:#private", 0xE06C75),    # red: only notes with no type (Obsidian uses the first match)
 ]
 
 
@@ -62,6 +62,8 @@ class Plan:
             self.skipped.append(self.rel(p))
             return
         self.created.append(self.rel(p))
+        if p.suffix == ".md" and p.name not in ("CLAUDE.md", "AGENTS.md") and "Templates" not in p.parts:
+            text = unwrap(text)
         if not self.dry:
             p.parent.mkdir(parents=True, exist_ok=True)
             p.write_text(text, encoding="utf-8")
@@ -94,6 +96,30 @@ class Plan:
                 p.write_text(json.dumps(cur, indent=2) + "\n", encoding="utf-8")
         else:
             self.skipped.append(self.rel(p))
+
+
+def unwrap(text: str) -> str:
+    """Join hard-wrapped lines inside paragraphs: Obsidian shows every newline as a line break."""
+    out, prev_joinable = [], False
+    in_fm = text.startswith("---\n")
+    fence = False
+    for i, line in enumerate(text.split("\n")):
+        s = line.strip()
+        if in_fm:
+            out.append(line)
+            if i > 0 and s == "---":
+                in_fm = False
+            continue
+        if s.startswith("```"):
+            fence = not fence
+        block = (not s or fence or s.startswith(("#", "- ", "* ", "> ", "|", "```", "<", "Up:", "Related:"))
+                 or re.match(r"^\d+\. ", s) or s.startswith("**") and s.endswith("**"))
+        if prev_joinable and s and not block and out and out[-1].strip():
+            out[-1] = out[-1].rstrip() + " " + s
+        else:
+            out.append(line)
+        prev_joinable = bool(s) and not fence and not s.startswith(("#", "|", "```", "<"))
+    return "\n".join(out)
 
 
 def parse_wing(spec: str) -> dict:
@@ -231,7 +257,8 @@ Up: [[Home]]{(' · Other wings: ' + ', '.join(others)) if others else ''}
                                        "useMarkdownLinks": False})
     plan.merge_json(obs / "graph.json",
                     {"colorGroups": [{"query": q, "color": {"a": 1, "rgb": c}} for q, c in COLOUR_GROUPS],
-                     "showOrphans": True},
+                     "showOrphans": True,
+                     "search": "-path:Templates -file:CLAUDE -file:AGENTS"},
                     list_key="colorGroups", match="query")
 
     verb = "Would create" if args.dry_run else "Created"

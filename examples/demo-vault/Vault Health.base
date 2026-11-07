@@ -1,0 +1,106 @@
+filters:
+  and:
+    - file.ext == "md"
+    - not:
+        - file.inFolder("Templates")
+        - file.inFolder("Daily")
+        - file.inFolder("Archive")
+    - file.basename != "CLAUDE"
+    - file.basename != "AGENTS"
+formulas:
+  out: file.links.length
+  back: file.backlinks.length
+  wing: if(file.inFolder("Life"), "Life", if(file.inFolder("Build"), "Build", if(file.inFolder("Work"), "Work", "Other")))
+  stale_days: (now() - file.mtime).days.round(0)
+properties:
+  formula.out:
+    displayName: Links out
+  formula.back:
+    displayName: Backlinks
+  formula.wing:
+    displayName: Wing
+  formula.stale_days:
+    displayName: Days since edit
+  file.mtime:
+    displayName: Modified
+views:
+  - type: table
+    name: "Orphans: nothing links here"
+    filters:
+      and:
+        - file.backlinks.isEmpty()
+        - file.basename != "Home"
+    order:
+      - file.name
+      - formula.wing
+      - type
+      - status
+      - formula.out
+  - type: table
+    name: "Under-linked: rule is 2+ links out"
+    filters:
+      and:
+        - file.links.length < 2
+        - type != "map"
+    order:
+      - file.name
+      - formula.wing
+      - formula.out
+      - formula.back
+      - type
+  - type: table
+    name: Missing frontmatter
+    filters:
+      or:
+        - type.isEmpty()
+        - status.isEmpty()
+        - created.isEmpty()
+    order:
+      - file.name
+      - formula.wing
+      - type
+      - status
+      - created
+  - type: table
+    name: "Seeds: started, not developed"
+    filters:
+      and:
+        - status == "seed"
+    groupBy:
+      property: formula.wing
+      direction: ASC
+    order:
+      - file.name
+      - formula.wing
+      - type
+      - formula.stale_days
+    sort:
+      - property: formula.stale_days
+        direction: DESC
+  - type: table
+    name: Everything by wing
+    groupBy:
+      property: formula.wing
+      direction: ASC
+    order:
+      - file.name
+      - formula.wing
+      - type
+      - status
+      - formula.out
+      - formula.back
+      - file.mtime
+    summaries:
+      formula.out: Average
+      formula.back: Average
+  - type: table
+    name: Recently touched
+    order:
+      - file.name
+      - formula.wing
+      - formula.stale_days
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC
+    limit: 25

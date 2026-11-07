@@ -1,0 +1,80 @@
+filters:
+  and:
+    - file.ext == "md"
+    - due
+formulas:
+  days_left: (date(due) - today()).days.round(0)
+  urgency: if((date(due) - today()).days.round(0) < 0, "overdue", if((date(due) - today()).days.round(0) <= 14, "this fortnight", if((date(due) - today()).days.round(0) <= 45, "next 6 weeks", "later")))
+  wing: if(file.inFolder("Life"), "Life", if(file.inFolder("Build"), "Build", if(file.inFolder("Work"), "Work", "Other")))
+properties:
+  formula.days_left:
+    displayName: Days left
+  formula.urgency:
+    displayName: Urgency
+  formula.wing:
+    displayName: Wing
+  due:
+    displayName: Due
+  status:
+    displayName: Status
+views:
+  - type: table
+    name: What's next
+    filters:
+      and:
+        - (date(due) - today()).days >= 0
+    order:
+      - formula.urgency
+      - file.name
+      - formula.wing
+      - due
+      - formula.days_left
+    sort:
+      - property: formula.days_left
+        direction: ASC
+    summaries:
+      formula.days_left: Min
+  - type: table
+    name: Overdue
+    filters:
+      and:
+        - (date(due) - today()).days < 0
+    order:
+      - file.name
+      - formula.wing
+      - due
+      - formula.days_left
+    sort:
+      - property: formula.days_left
+        direction: ASC
+  - type: table
+    name: Next 6 weeks
+    filters:
+      and:
+        - (date(due) - today()).days >= 0
+        - (date(due) - today()).days <= 45
+    groupBy:
+      property: formula.urgency
+      direction: ASC
+    order:
+      - file.name
+      - formula.wing
+      - due
+      - formula.days_left
+      - status
+    sort:
+      - property: formula.days_left
+        direction: ASC
+  - type: table
+    name: By wing
+    groupBy:
+      property: formula.wing
+      direction: ASC
+    order:
+      - file.name
+      - due
+      - formula.days_left
+      - formula.urgency
+    sort:
+      - property: formula.days_left
+        direction: ASC

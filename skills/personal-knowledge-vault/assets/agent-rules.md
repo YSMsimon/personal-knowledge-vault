@@ -71,6 +71,8 @@ disappears; the vault does not. "Yes, do that" and "I decided X" are memory even
 - Search before creating. Update the existing note instead of making a near-duplicate; two
   files with the same name make links ambiguous.
 - Never delete a note. Set `status: parked`, or move it to `Archive/` and update its Map entry.
+- Write each paragraph on one line. Obsidian shows every line break inside a paragraph, so hard-wrapped
+  text reads as broken lines.
 - Never store passwords, API keys, card numbers or government ID numbers in the vault.
 - Check health with `Vault Health.base` in Obsidian, or the `check_vault.py` script from the
   personal-knowledge-vault skill. When they disagree, trust Obsidian's own link index.

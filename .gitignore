@@ -1,3 +1,5 @@
 .DS_Store
 __pycache__/
 *.pyc
+examples/demo-vault/.obsidian/workspace*.json
+examples/demo-vault/.obsidian/cache

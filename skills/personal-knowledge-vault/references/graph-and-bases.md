@@ -46,9 +46,14 @@ Links, not folders, make the graph. With the no-orphan rule the vault grows a sp
 | `[type:note]` | blue | atomic notes |
 | `[type:source]` | purple | sources |
 | `[type:daily]` | grey | daily notes |
-| `tag:#private` | red | anything in a private or strict wing (listed last, so it wins) |
+| `tag:#private` | red | private notes that have no `type` (see below) |
 
-Obsidian applies the first matching group in the list. Queries use Obsidian's search syntax:
+Obsidian colours a node with the **first** group in the list that matches it, so with this order the
+type colours win and `tag:#private` only catches untyped private notes. To see wings instead of types,
+drag `tag:#private` to the top in the graph settings.
+
+The scaffold also sets the graph filter to `-path:Templates -file:CLAUDE -file:AGENTS`, so templates and
+the agent rules files don't clutter the graph. Queries use Obsidian's search syntax:
 `[property:value]` matches frontmatter, `tag:#x` a tag, `path:"Folder"` a folder. If a property
 query doesn't colour anything in an older Obsidian version, switch to `path:` queries
 (`path:"Maps"`, `path:"Projects"`, `path:"Notes"`, `path:"Daily"`).

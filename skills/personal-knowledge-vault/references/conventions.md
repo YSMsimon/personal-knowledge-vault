@@ -75,6 +75,7 @@ on them.
 - Link to a heading with `[[Note#Heading]]`; embed with `![[Note]]` or `![[image.png]]`.
 - Unresolved links are fine and intended. They are the backlog of notes worth writing.
 - When renaming a note, do it in Obsidian (it updates links) or update every link yourself.
+- Write each paragraph on one line. Obsidian renders every newline inside a paragraph as a line break.
 
 ## 5. Maps
 

@@ -1,0 +1,65 @@
+{
+  "collapse-filter": true,
+  "search": "-path:Templates -file:CLAUDE -file:AGENTS",
+  "showTags": false,
+  "showAttachments": false,
+  "hideUnresolved": false,
+  "showOrphans": true,
+  "collapse-color-groups": true,
+  "colorGroups": [
+    {
+      "query": "[type:map]",
+      "color": {
+        "a": 1,
+        "rgb": 16757844
+      }
+    },
+    {
+      "query": "[type:project]",
+      "color": {
+        "a": 1,
+        "rgb": 5025616
+      }
+    },
+    {
+      "query": "[type:note]",
+      "color": {
+        "a": 1,
+        "rgb": 6000111
+      }
+    },
+    {
+      "query": "[type:source]",
+      "color": {
+        "a": 1,
+        "rgb": 11833005
+      }
+    },
+    {
+      "query": "[type:daily]",
+      "color": {
+        "a": 1,
+        "rgb": 9079434
+      }
+    },
+    {
+      "query": "tag:#private",
+      "color": {
+        "a": 1,
+        "rgb": 14707829
+      }
+    }
+  ],
+  "collapse-display": true,
+  "showArrow": false,
+  "textFadeMultiplier": -0.6,
+  "nodeSizeMultiplier": 1.25,
+  "lineSizeMultiplier": 1.1,
+  "collapse-forces": true,
+  "centerStrength": 0.55,
+  "repelStrength": 12,
+  "linkStrength": 1,
+  "linkDistance": 180,
+  "scale": 1,
+  "close": true
+}

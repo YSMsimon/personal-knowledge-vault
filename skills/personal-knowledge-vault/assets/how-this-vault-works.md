@@ -48,5 +48,5 @@ new untitled file.
 ## Reading the graph
 
 Colours come from the `type` property, configured in `.obsidian/graph.json`: Maps, projects,
-notes, sources, dailies, and anything tagged `private`. A cluster floating alone is
+notes, sources and dailies. Templates and the agent rules files are hidden from the graph. A cluster floating alone is
 under-linked; fix it by finding the Map it belongs to.
